@@ -1,13 +1,14 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import classes from "./MyTables.module.css";
 import MyNavbar from "../MyDashboard/MyNavbar";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
+import "./styles.css";
 
 const MyTables = () => {
   const gridRef = useRef();
-  const [rowData] = useState([
+  const [rowData, setRowData] = useState([
     {
       Task: "task 1",
       Description: "desc for task 1",
@@ -34,14 +35,28 @@ const MyTables = () => {
     },
   ]);
 
-  const [columnDefs] = useState([
-    { field: "Task" },
-    { field: "Description" },
-    { field: "Employee" },
-    { field: "Status" },
-    { field: "Completion" },
-    { field: "Action" },
+  // const [columnDefs] = useState([
+  //   { field: "Task" },
+  //   { field: "Description" },
+  //   { field: "Employee" },
+  //   { field: "Status" },
+  //   { field: "Completion" },
+  //   { field: "Action" },
+  // ]);
+
+  const [columnDefs, setColumnDefs] = useState([
+    { field: "athlete", minWidth: 170 },
+    { field: "age" },
+    { field: "country" },
+    { field: "year" },
+    { field: "date" },
+    { field: "sport" },
+    { field: "gold" },
+    { field: "silver" },
+    { field: "bronze" },
+    { field: "total" },
   ]);
+
   const defaultColDef = useMemo(
     () => ({
       sortable: true,
@@ -49,16 +64,27 @@ const MyTables = () => {
     }),
     []
   );
+
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => setRowData(data));
+  }, []);
+
   return (
-    <div className={classes.tablesPage}>
+    <div className={classes.tablesContainer} style={{ height: "100%", width: "100%" }}>
       <MyNavbar />
-      <div className="ag-theme-alpine" style={{ height: 500 }}>
-        <AgGridReact
-          rowData={rowData}
-          columnDefs={columnDefs}
-          defaultColDef={defaultColDef}
-          animateRows={true}
-        ></AgGridReact>
+      <div className={classes.tablesPage}>
+        <div className={"ag-theme-alpine"} style={{ height: "500px", width: "100%" }}>
+          <AgGridReact
+            rowData={rowData}
+            columnDefs={columnDefs}
+            defaultColDef={defaultColDef}
+            animateRows={true}
+            rowSelection="multiple"
+            onGridReady={onGridReady}
+          ></AgGridReact>
+        </div>
       </div>
     </div>
   );

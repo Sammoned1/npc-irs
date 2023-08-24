@@ -1,0 +1,23 @@
+.ag-theme-alpine {
+    --ag-range-selection-border-color: transparent;
+    --ag-odd-row-background-color: transparent;
+    --ag-borders: none;
+    --ag-foreground-color: #344767;
+    /*--ag-grid-size:2px;*/
+    --ag-font-size: 13px;
+    --ag-font-famil: "Roboto", sans-serif;
+    --ag-border-radius: 10px;
+    --ag-header-foreground-color:#7b809a90;
+    --ag-header-background-color: white;
+    font-weight: 700;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    --ag-row-border-color: rgba(128, 128, 128, 0.1);
+    --ag-row-border-width: 1px
+}
+
+*::-webkit-scrollbar {
+    display: none;
+    width: 0 !important;
+}
+
