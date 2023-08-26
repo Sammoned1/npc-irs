@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import classes from "./MyTables.module.css";
 import MyNavbar from "../MyDashboard/MyNavbar";
 import { AgGridReact } from "ag-grid-react";
@@ -8,86 +8,126 @@ import "./styles.css";
 
 const MyTables = () => {
   const gridRef = useRef();
+  const [sequence, setSequence] = useState(4);
+  const [isRowSelected, setIsRowSelected] = useState(false);
   const [rowData, setRowData] = useState([
     {
+      id: 1,
       Task: "task 1",
       Description: "desc for task 1",
       Employee: 1,
       Status: "Working",
       Completion: "50%",
-      Action: "edit",
     },
     {
+      id: 2,
       Task: "task 2",
       Description: "desc for task 2",
       Employee: 2,
       Status: "Working",
       Completion: "50%",
-      Action: "edit",
     },
     {
+      id: 3,
       Task: "task 3",
       Description: "desc for task 3",
       Employee: 3,
-      Status: "Working",
-      Completion: "50%",
-      Action: "edit",
+      Status: "Complete",
+      Completion: "100%",
     },
   ]);
 
   const [columnDefs] = useState([
+    { field: "id" },
     { field: "Task" },
     { field: "Description" },
     { field: "Employee" },
     { field: "Status" },
     { field: "Completion" },
-    { field: "Action" },
   ]);
-
-  // const [columnDefs, setColumnDefs] = useState([
-  //   { field: "athlete", minWidth: 170 },
-  //   { field: "age" },
-  //   { field: "country" },
-  //   { field: "year" },
-  //   { field: "date" },
-  //   { field: "sport" },
-  //   { field: "gold" },
-  //   { field: "silver" },
-  //   { field: "bronze" },
-  //   { field: "total" },
-  // ]);
 
   const defaultColDef = useMemo(
     () => ({
       sortable: true,
-      // resizable: true,
-      // filter: true,
     }),
     []
   );
 
+  // useEffect(() => {
+  //   if (gridRef.current.api) {
+  //     const selectedNodes = gridRef.current.api.getSelectedNodes();
+  //   }
+  // }, [isRowSelected]);
+
+  const onRowClicked = (params) => {
+    const selectedNodes = gridRef.current.api.getSelectedNodes().map((node) => node.data);
+    console.log(selectedNodes.length);
+    if (!selectedNodes.length) {
+      setIsRowSelected(false);
+    } else setIsRowSelected(true);
+  };
+
   const onFirstDataRendered = useCallback((params) => {
     gridRef.current.api.sizeColumnsToFit();
+  });
+
+  const insertOne = useCallback(() => {
+    const newRow = {
+      id: sequence,
+      Task: "added task",
+      Description: "desc for added task",
+      Employee: 10,
+      Status: "Working",
+      Completion: "20%",
+    };
+    setSequence(sequence + 1);
+    setRowData([newRow, ...rowData]);
+  });
+
+  const getRowId = useCallback((params) => {
+    return params.data.id;
+  });
+
+  const onRemove = useCallback(() => {
+    const selectedNodes = gridRef.current.api.getSelectedNodes();
+    const selectedIds = selectedNodes.map((node) => node.data.id);
+    setRowData(rowData.filter((row) => selectedIds.indexOf(row.id) < 0));
+    setIsRowSelected(false);
   });
 
   return (
     <div className={classes.tablesContainer} style={{ height: "100%", width: "100%" }}>
       {/*<MyNavbar />*/}
       <div className={classes.tablesPage}>
-        <div className={classes.tableTitle}>Table 1</div>
+        <div className={classes.tableTitle}>
+          <div>Table 1</div>
+          <div className={classes.titleBtnContainer}>
+            <button className={classes.addBtn} onClick={insertOne}>
+              Add
+            </button>
+            <button className={classes.editBtn} disabled={!isRowSelected}>
+              Edit
+            </button>
+            <button className={classes.deleteBtn} onClick={onRemove} disabled={!isRowSelected}>
+              Delete
+            </button>
+          </div>
+        </div>
         <div className={"ag-theme-alpine"} style={{ height: "500px", width: "100%" }}>
           <AgGridReact
             ref={gridRef}
+            getRowId={getRowId}
             containerStyle={{ width: "100%" }}
             rowStyle={{ width: "100%" }}
             rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             animateRows={true}
-            rowSelection="multiple"
+            rowSelection={"multiple"}
             rowHeight={60}
             onFirstDataRendered={onFirstDataRendered}
             headerHeight={40}
+            onRowClicked={onRowClicked}
           ></AgGridReact>
         </div>
       </div>
