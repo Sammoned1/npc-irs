@@ -1,0 +1,26 @@
+.progressBarContainer{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.progressText{
+    font-size: 12px;
+    font-weight: 600;
+    color: #7b809a;
+}
+
+.progressBar{
+    width: 100%;
+    display: flex;
+    max-width: 150px;
+}
+
+.progressBarFill{
+    height: 6px;
+    border-radius: 2px;
+}
+
+

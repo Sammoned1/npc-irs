@@ -5,6 +5,8 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import "./styles.css";
+import MyTaskComp from "../MyTaskComp/MyTaskComp";
+import MyProgressBarComp from "../MyProgressBarComp/MyProgressBarComp";
 
 const MyTables = () => {
   const gridRef = useRef();
@@ -17,7 +19,7 @@ const MyTables = () => {
       Description: "desc for task 1",
       Employee: 1,
       Status: "Working",
-      Completion: "50%",
+      Completion: 50,
     },
     {
       id: 2,
@@ -25,7 +27,7 @@ const MyTables = () => {
       Description: "desc for task 2",
       Employee: 2,
       Status: "Working",
-      Completion: "50%",
+      Completion: 50,
     },
     {
       id: 3,
@@ -33,17 +35,16 @@ const MyTables = () => {
       Description: "desc for task 3",
       Employee: 3,
       Status: "Complete",
-      Completion: "100%",
+      Completion: 100,
     },
   ]);
 
   const [columnDefs] = useState([
-    { field: "id" },
-    { field: "Task" },
+    { field: "Task", cellRenderer: MyTaskComp },
     { field: "Description" },
     { field: "Employee" },
     { field: "Status" },
-    { field: "Completion" },
+    { field: "Completion", cellRenderer: MyProgressBarComp },
   ]);
 
   const defaultColDef = useMemo(
@@ -52,12 +53,6 @@ const MyTables = () => {
     }),
     []
   );
-
-  // useEffect(() => {
-  //   if (gridRef.current.api) {
-  //     const selectedNodes = gridRef.current.api.getSelectedNodes();
-  //   }
-  // }, [isRowSelected]);
 
   const onRowClicked = (params) => {
     const selectedNodes = gridRef.current.api.getSelectedNodes().map((node) => node.data);
@@ -78,7 +73,7 @@ const MyTables = () => {
       Description: "desc for added task",
       Employee: 10,
       Status: "Working",
-      Completion: "20%",
+      Completion: 20,
     };
     setSequence(sequence + 1);
     setRowData([newRow, ...rowData]);
