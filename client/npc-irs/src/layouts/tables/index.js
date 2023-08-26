@@ -18,7 +18,6 @@ function Tables() {
 
   return (
     <DashboardLayout>
-      <MyTables />
       {/*<DashboardNavbar />*/}
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
@@ -77,6 +76,7 @@ function Tables() {
             </Card>
           </Grid>
         </Grid>
+        <MyTables />
       </MDBox>
       <Footer />
     </DashboardLayout>

@@ -35,54 +35,59 @@ const MyTables = () => {
     },
   ]);
 
-  // const [columnDefs] = useState([
-  //   { field: "Task" },
-  //   { field: "Description" },
-  //   { field: "Employee" },
-  //   { field: "Status" },
-  //   { field: "Completion" },
-  //   { field: "Action" },
-  // ]);
-
-  const [columnDefs, setColumnDefs] = useState([
-    { field: "athlete", minWidth: 170 },
-    { field: "age" },
-    { field: "country" },
-    { field: "year" },
-    { field: "date" },
-    { field: "sport" },
-    { field: "gold" },
-    { field: "silver" },
-    { field: "bronze" },
-    { field: "total" },
+  const [columnDefs] = useState([
+    { field: "Task" },
+    { field: "Description" },
+    { field: "Employee" },
+    { field: "Status" },
+    { field: "Completion" },
+    { field: "Action" },
   ]);
+
+  // const [columnDefs, setColumnDefs] = useState([
+  //   { field: "athlete", minWidth: 170 },
+  //   { field: "age" },
+  //   { field: "country" },
+  //   { field: "year" },
+  //   { field: "date" },
+  //   { field: "sport" },
+  //   { field: "gold" },
+  //   { field: "silver" },
+  //   { field: "bronze" },
+  //   { field: "total" },
+  // ]);
 
   const defaultColDef = useMemo(
     () => ({
       sortable: true,
-      filter: true,
+      // resizable: true,
+      // filter: true,
     }),
     []
   );
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data));
-  }, []);
+  const onFirstDataRendered = useCallback((params) => {
+    gridRef.current.api.sizeColumnsToFit();
+  });
 
   return (
     <div className={classes.tablesContainer} style={{ height: "100%", width: "100%" }}>
-      <MyNavbar />
+      {/*<MyNavbar />*/}
       <div className={classes.tablesPage}>
+        <div className={classes.tableTitle}>Table 1</div>
         <div className={"ag-theme-alpine"} style={{ height: "500px", width: "100%" }}>
           <AgGridReact
+            ref={gridRef}
+            containerStyle={{ width: "100%" }}
+            rowStyle={{ width: "100%" }}
             rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             animateRows={true}
             rowSelection="multiple"
-            onGridReady={onGridReady}
+            rowHeight={60}
+            onFirstDataRendered={onFirstDataRendered}
+            headerHeight={40}
           ></AgGridReact>
         </div>
       </div>
