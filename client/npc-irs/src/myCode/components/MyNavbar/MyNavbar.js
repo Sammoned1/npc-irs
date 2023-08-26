@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import classes from "./MyNavbar.module.css";
-import MySearchBar from "../MySearchBar/MySearchBar";
+import MyInput from "../MyInput/MyInput";
 
 const MyNavbar = () => {
   const [isActive, setIsActive] = useState(false);
@@ -26,7 +26,7 @@ const MyNavbar = () => {
         </div>
         <div>
           <div className={classes.toolBox}>
-            <MySearchBar />
+            <MyInput text={"Search here"} />
             <div className={classes.buttonContainer}>
               <div className={classes.toolBtn}>
                 <div className={classes.profileIcon}></div>

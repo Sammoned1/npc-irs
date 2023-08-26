@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import classes from "./MyTables.module.css";
-import MyNavbar from "../MyDashboard/MyNavbar";
+import MyNavbar from "../MyNavbar/MyNavbar";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";

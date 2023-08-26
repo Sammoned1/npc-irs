@@ -2,18 +2,27 @@
 
 import React from "react";
 import classes from "./MyAddNewTaskModal.module.css";
-import MySearchBar from "../MySearchBar/MySearchBar";
+import MyInput from "../MyInput/MyInput";
 
 const MyAddNewTaskModal = ({ isActive, setIsActive }) => {
   return (
     <div className={classes.modal} style={{ display: isActive ? "flex" : "none" }}>
       <div className={classes.modalContentBox}>
-        <div>Add new task</div>
+        <div className={classes.modalTitle}>Add new task</div>
         <div className={classes.modalContent}>
-          <MySearchBar />
-          {/*<div>Enter task name</div>*/}
-          <div>Enter a description</div>
+          <MyInput text={"Task name"} />
+          <MyInput text={"Description"} />
           <div>Choose an employee</div>
+          <div className={classes.modalBtnContainer}>
+            <button
+              onClick={() => {
+                setIsActive(false);
+              }}
+            >
+              Cansel
+            </button>
+            <button>Submit</button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,17 +1,17 @@
-import React, { useEffect, useRef } from "react";
-import classes from "./MySearchBar.module.css";
+/* eslint-disable react/prop-types */
 
-const MySearchBar = () => {
+import React, { useEffect, useRef } from "react";
+import classes from "./MyInput.module.css";
+
+const MyInput = ({ text }) => {
   return (
     <div className={classes.searchBarContainer}>
-      {/*<input required type="text" className={classes.searchBar} />*/}
-      {/*<span className={classes.placeholder}>Search here</span>*/}
       <div className={classes.inputContainer}>
         <input type="text" id={"mySearchInput"} className={classes.searchInput} />
-        <label htmlFor="mySearchInput">Search here</label>
+        <label htmlFor="mySearchInput">{text}</label>
         <fieldset>
           <legend>
-            <span>Search here</span>
+            <span>{text}</span>
           </legend>
         </fieldset>
       </div>
@@ -19,4 +19,4 @@ const MySearchBar = () => {
   );
 };
 
-export default MySearchBar;
+export default MyInput;
