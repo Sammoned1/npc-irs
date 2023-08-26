@@ -16,6 +16,8 @@
     width: 100%;
     display: flex;
     max-width: 150px;
+    background-color: #F0F2F5;
+    border-radius: 2px;
 }
 
 .progressBarFill{

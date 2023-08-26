@@ -7,11 +7,15 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import "./styles.css";
 import MyTaskComp from "../MyTaskComp/MyTaskComp";
 import MyProgressBarComp from "../MyProgressBarComp/MyProgressBarComp";
+import MyStatusComp from "../MyStatusComp/MyStatusComp";
+import MyDescriptionComp from "../MyDescriptionComp/MyDescriptionComp";
+import MyAddNewTaskModal from "../MyAddNewTaskModal/MyAddNewTaskModal";
 
 const MyTables = () => {
   const gridRef = useRef();
   const [sequence, setSequence] = useState(4);
   const [isRowSelected, setIsRowSelected] = useState(false);
+  const [isModalActive, setIsModalActive] = useState(false);
   const [rowData, setRowData] = useState([
     {
       id: 1,
@@ -32,7 +36,8 @@ const MyTables = () => {
     {
       id: 3,
       Task: "task 3",
-      Description: "desc for task 3",
+      Description:
+        "              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda cupiditate facilis fugit inventore libero neque nisi nostrum quas, repellendus voluptatem?\n",
       Employee: 3,
       Status: "Complete",
       Completion: 100,
@@ -41,9 +46,9 @@ const MyTables = () => {
 
   const [columnDefs] = useState([
     { field: "Task", cellRenderer: MyTaskComp },
-    { field: "Description" },
+    { field: "Description", cellRenderer: MyDescriptionComp, wrapText: true, autoHeight: true },
     { field: "Employee" },
-    { field: "Status" },
+    { field: "Status", cellRenderer: MyStatusComp },
     { field: "Completion", cellRenderer: MyProgressBarComp },
   ]);
 
@@ -67,16 +72,17 @@ const MyTables = () => {
   });
 
   const insertOne = useCallback(() => {
-    const newRow = {
-      id: sequence,
-      Task: "added task",
-      Description: "desc for added task",
-      Employee: 10,
-      Status: "Working",
-      Completion: 20,
-    };
-    setSequence(sequence + 1);
-    setRowData([newRow, ...rowData]);
+    if (!isModalActive) setIsModalActive(true);
+    // const newRow = {
+    //   id: sequence,
+    //   Task: "added task",
+    //   Description: "desc for added task",
+    //   Employee: 10,
+    //   Status: "Working",
+    //   Completion: 20,
+    // };
+    // setSequence(sequence + 1);
+    // setRowData([newRow, ...rowData]);
   });
 
   const getRowId = useCallback((params) => {
@@ -92,7 +98,7 @@ const MyTables = () => {
 
   return (
     <div className={classes.tablesContainer} style={{ height: "100%", width: "100%" }}>
-      {/*<MyNavbar />*/}
+      <MyAddNewTaskModal isActive={isModalActive} setIsActive={setIsModalActive} />
       <div className={classes.tablesPage}>
         <div className={classes.tableTitle}>
           <div>Table 1</div>

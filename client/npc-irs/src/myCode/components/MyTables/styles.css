@@ -4,8 +4,8 @@
     --ag-borders: none;
     --ag-border-color: rgba(128, 128, 128, 0.1);
     --ag-foreground-color: #344767;
-    --ag-grid-size: 10px;
-    --ag-font-size: 13px;
+    /*--ag-grid-size: 10px;*/
+    /*--ag-font-size: 13px;*/
     --ag-font-famil: "Roboto", sans-serif;
     --ag-border-radius: 10px;
     --ag-header-foreground-color:#7b809a90;
