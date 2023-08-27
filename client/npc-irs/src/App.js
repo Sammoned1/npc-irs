@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
 
 // react-router components
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
@@ -37,6 +37,8 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "co
 // Images
 import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
+import { Context } from "./index";
+import { getAllTasks } from "./myCode/http/taskAPI";
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -130,6 +132,12 @@ export default function App() {
       </Icon>
     </MDBox>
   );
+
+  const { serverData } = useContext(Context);
+
+  useEffect(() => {
+    getAllTasks().then((data) => serverData.setTasks(data));
+  }, []);
 
   return (
     <ThemeProvider theme={darkMode ? themeDark : theme}>

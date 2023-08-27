@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import classes from "./MyTables.module.css";
 import MyNavbar from "../MyNavbar/MyNavbar";
 import { AgGridReact } from "ag-grid-react";
@@ -10,46 +10,23 @@ import MyProgressBarComp from "../MyProgressBarComp/MyProgressBarComp";
 import MyStatusComp from "../MyStatusComp/MyStatusComp";
 import MyDescriptionComp from "../MyDescriptionComp/MyDescriptionComp";
 import MyAddNewTaskModal from "../MyAddNewTaskModal/MyAddNewTaskModal";
+import { getAllTasks } from "../../http/taskAPI";
+import { Context } from "../../../index";
+import { observer } from "mobx-react-lite";
 
-const MyTables = () => {
+const MyTables = observer(() => {
   const gridRef = useRef();
   const [sequence, setSequence] = useState(4);
   const [isRowSelected, setIsRowSelected] = useState(false);
   const [isModalActive, setIsModalActive] = useState(false);
-  const [rowData, setRowData] = useState([
-    {
-      id: 1,
-      Task: "task 1",
-      Description: "desc for task 1",
-      Employee: 1,
-      Status: "Working",
-      Completion: 50,
-    },
-    {
-      id: 2,
-      Task: "task 2",
-      Description: "desc for task 2",
-      Employee: 2,
-      Status: "Working",
-      Completion: 50,
-    },
-    {
-      id: 3,
-      Task: "task 3",
-      Description:
-        "              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda cupiditate facilis fugit inventore libero neque nisi nostrum quas, repellendus voluptatem?\n",
-      Employee: 3,
-      Status: "Complete",
-      Completion: 100,
-    },
-  ]);
+  const [rowData, setRowData] = useState([]);
 
   const [columnDefs] = useState([
-    { field: "Task", cellRenderer: MyTaskComp },
-    { field: "Description", cellRenderer: MyDescriptionComp, wrapText: true, autoHeight: true },
-    { field: "Employee" },
-    { field: "Status", cellRenderer: MyStatusComp },
-    { field: "Completion", cellRenderer: MyProgressBarComp },
+    { field: "task", cellRenderer: MyTaskComp },
+    { field: "description", cellRenderer: MyDescriptionComp, wrapText: true, autoHeight: true },
+    { field: "userId", headerComponentParams: { displayName: "employee" } },
+    { field: "status", cellRenderer: MyStatusComp },
+    { field: "progress", cellRenderer: MyProgressBarComp },
   ]);
 
   const defaultColDef = useMemo(
@@ -59,13 +36,13 @@ const MyTables = () => {
     []
   );
 
-  const onRowClicked = (params) => {
+  const onRowClicked = useCallback((params) => {
     const selectedNodes = gridRef.current.api.getSelectedNodes().map((node) => node.data);
     console.log(selectedNodes.length);
     if (!selectedNodes.length) {
       setIsRowSelected(false);
     } else setIsRowSelected(true);
-  };
+  });
 
   const onFirstDataRendered = useCallback((params) => {
     gridRef.current.api.sizeColumnsToFit();
@@ -73,16 +50,6 @@ const MyTables = () => {
 
   const insertOne = useCallback(() => {
     if (!isModalActive) setIsModalActive(true);
-    // const newRow = {
-    //   id: sequence,
-    //   Task: "added task",
-    //   Description: "desc for added task",
-    //   Employee: 10,
-    //   Status: "Working",
-    //   Completion: 20,
-    // };
-    // setSequence(sequence + 1);
-    // setRowData([newRow, ...rowData]);
   });
 
   const getRowId = useCallback((params) => {
@@ -96,8 +63,17 @@ const MyTables = () => {
     setIsRowSelected(false);
   });
 
+  const { serverData } = useContext(Context);
+
+  useEffect(() => {
+    if (serverData.tasks.length) {
+      setRowData(serverData.tasks);
+    }
+  }, [serverData.tasks.length]);
+
   return (
     <div className={classes.tablesContainer} style={{ height: "100%", width: "100%" }}>
+      {/*<MyNavbar />*/}
       <MyAddNewTaskModal isActive={isModalActive} setIsActive={setIsModalActive} />
       <div className={classes.tablesPage}>
         <div className={classes.tableTitle}>
@@ -134,6 +110,6 @@ const MyTables = () => {
       </div>
     </div>
   );
-};
+});
 
 export default MyTables;
