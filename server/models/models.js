@@ -7,15 +7,15 @@ const User = sequelize.define('user', {
     text: { type: DataTypes.TEXT, allowNull:false}
 })
 
-const Post = sequelize.define('post', {
+const Task = sequelize.define('task', {
     id: {type:DataTypes.INTEGER, primaryKey:true, autoIncrement: true},
     text: { type: DataTypes.TEXT, allowNull:false}
 })
 
-User.hasMany(Post)
-Post.belongsTo(User)
+User.hasMany(Task)
+Task.belongsTo(User)
 
 module.exports = {
     User,
-    Post
+    Task
 }
