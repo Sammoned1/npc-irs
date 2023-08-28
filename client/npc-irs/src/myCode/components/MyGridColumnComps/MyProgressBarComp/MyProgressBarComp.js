@@ -3,7 +3,6 @@ import classes from "./MyProgressBarComp.module.css";
 
 const MyProgressBarComp = (p) => {
   const progress = p.value;
-  console.log(p);
   return (
     <div className={classes.progressBarContainer}>
       <div className={classes.progressText}>{progress}%</div>

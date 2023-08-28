@@ -7,8 +7,8 @@ const MyInput = ({ text }) => {
   return (
     <div className={classes.searchBarContainer}>
       <div className={classes.inputContainer}>
-        <input type="text" id={"mySearchInput"} className={classes.searchInput} />
-        <label htmlFor="mySearchInput">{text}</label>
+        <input type="text" id={text + "_id"} className={classes.searchInput} />
+        <label htmlFor={text + "_id"}>{text}</label>
         <fieldset>
           <legend>
             <span>{text}</span>

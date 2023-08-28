@@ -46,7 +46,11 @@ class TaskController {
   async getAllTasks(req, res, next) {
     try {
       const { limit, offset } = req.query;
-      const tasks = await Task.findAll({ limit, offset });
+      const tasks = await Task.findAll({
+        limit,
+        offset,
+        order: [ ["id", "DESC"] ],
+      });
       return res.json(tasks);
     } catch (e) {
       next(ApiError.badRequest(e.message));

@@ -39,6 +39,7 @@ import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
 import { Context } from "./index";
 import { getAllTasks } from "./myCode/http/taskAPI";
+import { getAllUsers } from "./myCode/http/userAPI";
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -137,6 +138,7 @@ export default function App() {
 
   useEffect(() => {
     getAllTasks().then((data) => serverData.setTasks(data));
+    getAllUsers().then((data) => serverData.setUsers(data));
   }, []);
 
   return (
