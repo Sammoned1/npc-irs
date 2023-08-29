@@ -20,21 +20,21 @@
 Клонирование по http:
 
 ```shell
-$ git clone https://github.com/Sammoned1/npc-irs.git
+git clone https://github.com/Sammoned1/npc-irs.git
 ```
 
 Клонирование по ssh:
 
 ```shell
-$ git clone git@github.com:Sammoned1/npc-irs.git
+git clone git@github.com:Sammoned1/npc-irs.git
 ```
 
 ```shell
-$ cd npc-irs/server
-$ npm i --save package.json
-$ cd ..
-$ cd client/npc-irs
-$ npm i --save package.json
+cd npc-irs/server
+npm i --save package.json
+cd ..
+cd client/npc-irs
+npm i --save package.json
 ```
 
 ### Запуск проекта:
@@ -42,21 +42,21 @@ $ npm i --save package.json
 База данных:  
 
 ```shell
-$ psql -f init-db.sql -U <username>
+psql -f init-db.sql -U <username>
 ```
 
 Сервер:
 
 ```shell
-$ cd server
-$ nodemon index.js
+cd server
+nodemon index.js
 ```
 
 Клиент:
 
 ```shell
-$ cd client/npc-irs
-$ npm start
+cd client/npc-irs
+npm start
 ```
 
 ## Конфигурация
