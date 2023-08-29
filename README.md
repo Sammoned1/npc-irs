@@ -1,4 +1,4 @@
-# NPC-IRS TEST-TASK
+# НПЦ-ИРС ТЕСТОВОЕ ЗАДАНИЕ
 
 Проект "npc-irs" был создан в качестве тестового задания 
 для компании [**НПЦ-ИРС**](http://npcirs.ru/). 
@@ -27,6 +27,7 @@ $ npm i --save package.json
 ```
 
 ### Запуск проекта:
+
 База данных:  
 
 ```shell
@@ -34,23 +35,27 @@ $ psql -f init-db.sql -U <username>
 ```
 
 Сервер:
+
 ```shell
 $ cd server
 $ nodemon index.js
 ```
+
 Клиент:
+
 ```shell
 $ cd client/npc-irs
 $ npm start
 ```
 
-## Configuration
-To configure this API you need to create .env file with this structure
-text
-JWT_SECRET_KEY = <secret key here>
-JWT_REFRESH_SECRET_KEY = <secret key here>
-MONGO_CONNECTION_STRING = mongodb://host:port
+## Конфигурация
 
-## Docs
-If you run this app without specified host, full openApi docs will be here:
-http://127.0.0.1:8000/docs
+Для конфигурации проекта необходимо создать .env файл в директориях 
+server и client/npc-irs по примеру файлов .env-example в соответствующих директориях.  
+В файле server/.env в полях:  
+
+> DB_PASSWORD  
+>
+> DB_USER  
+  
+Необходимо ввести данные пользователя **PostgreSQL**
