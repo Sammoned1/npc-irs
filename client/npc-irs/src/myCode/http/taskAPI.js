@@ -1,6 +1,6 @@
 import { $host } from "./index";
 
-export const createTask = async ({ task, description, status, progress, userId }) => {
+export const createTask = async (task, description, status, progress, userId) => {
   const { data } = await $host.post("api/task/", { task, description, status, progress, userId });
   return data;
 };
@@ -10,7 +10,21 @@ export const getTask = async (id) => {
   return data;
 };
 
-export const getAllTasks = async () => {
-  const { data } = await $host.get("api/task/");
+export const getAllTasks = async (userId, assigned) => {
+  const { data } = await $host.get("api/task/", {
+    params: {
+      userId,
+      assigned,
+    },
+  });
   return data;
 };
+
+export const deleteTask = async (selectedIds) => {
+  const { data } = await $host.post("api/task/delete/", { selectedIds });
+  return data;
+};
+
+// export const getUnassignedTasks = async ()=>{
+//   const {data} = await $host.get("api/task/")
+// }

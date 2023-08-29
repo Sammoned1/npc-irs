@@ -11,6 +11,7 @@ import MyStatusComp from "../../MyGridColumnComps/MyStatusComp/MyStatusComp";
 import MyProgressBarComp from "../../MyGridColumnComps/MyProgressBarComp/MyProgressBarComp";
 import { Context } from "../../../../index";
 import { observer } from "mobx-react-lite";
+import { deleteTask } from "../../../http/taskAPI";
 
 const Table = observer(
   ({ gridEditAllowed = false, gridTitle = "Plain table", data, columnDefs, width = "100%" }) => {
@@ -55,6 +56,7 @@ const Table = observer(
       const selectedNodes = gridRef.current.api.getSelectedNodes();
       const selectedIds = selectedNodes.map((node) => node.data.id);
       setRowData(rowData.filter((row) => selectedIds.indexOf(row.id) < 0));
+      deleteTask(selectedIds).then((data) => {});
       setIsRowSelected(false);
     });
 

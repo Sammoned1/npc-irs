@@ -6,6 +6,7 @@ import MyInput from "../../MyInput/MyInput";
 import { Context } from "../../../../index";
 import { observer } from "mobx-react-lite";
 import UserNode from "./UserNode/UserNode";
+import MyTextArea from "../../MyTextArea/MyTextArea";
 
 const MyAddNewTaskModal = observer(({ isActive, setIsActive }) => {
   const [users, setUsers] = useState([]);
@@ -23,7 +24,7 @@ const MyAddNewTaskModal = observer(({ isActive, setIsActive }) => {
         <div className={classes.modalContent}>
           <div className={classes.modalInputs}>
             <MyInput text={"Task name"} />
-            <MyInput text={"Description"} />
+            <MyTextArea text={"Description"} />
           </div>
           <div>
             <div className={classes.userListTitle}>Choose user</div>

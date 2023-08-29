@@ -54,10 +54,20 @@
     user-select: none;
 }
 
-.addBtn, .editBtn{
+.addBtn{
     color: white;
     border: 1px solid #40ba3c;
     background-color: #40ba3c;
+    transform: scale(1);
+    transition: all 0.2s ease;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.editBtn{
+    color: white;
+    border: 1px solid #e5d214;
+    background-color: #e5d214;
     transform: scale(1);
     transition: all 0.2s ease;
     font-weight: 600;

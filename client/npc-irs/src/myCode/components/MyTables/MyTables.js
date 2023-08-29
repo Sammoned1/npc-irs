@@ -15,6 +15,7 @@ import { Context } from "../../../index";
 import { observer } from "mobx-react-lite";
 import MyUserComp from "../MyGridColumnComps/MyUserComp/MyUserComp";
 import Table from "./Table/Table";
+import MyTaskAmountComp from "../MyGridColumnComps/MyTaskAmountComp/MyTaskAmountComp";
 
 const MyTables = observer(() => {
   const { serverData } = useContext(Context);
@@ -33,23 +34,41 @@ const MyTables = observer(() => {
 
   const [userColumnDefs] = useState([
     { field: "username", cellRenderer: MyUserComp },
-    { field: "task amount" },
+    { field: "taskAmount", cellRenderer: MyTaskAmountComp },
   ]);
+
+  const [unassignedTasksColumnDefs] = useState([
+    { field: "task", cellRenderer: MyTaskComp },
+    { field: "description", cellRenderer: MyDescriptionComp, wrapText: true, autoHeight: true },
+    { field: "status", cellRenderer: MyStatusComp },
+    { field: "progress", cellRenderer: MyProgressBarComp },
+  ]);
+
+  useEffect(() => {
+    console.log(serverData._unassignedTasks);
+  }, [serverData._unassignedTasks]);
 
   return (
     <div className={classes.tablesContainer} style={{ height: "100%", width: "100%" }}>
       {/*<MyNavbar />*/}
+      <div style={{ display: "flex", gap: 24 }}>
+        <Table
+          gridEditAllowed={true}
+          gridTitle={"Recent tasks"}
+          data={serverData.tasks}
+          columnDefs={taskColumnDefs}
+        />
+        <Table
+          gridTitle={"Users"}
+          data={serverData.users}
+          columnDefs={userColumnDefs}
+          width={"400px"}
+        />
+      </div>
       <Table
-        gridEditAllowed={true}
-        gridTitle={"Recent tasks"}
-        data={serverData.tasks}
-        columnDefs={taskColumnDefs}
-      />
-      <Table
-        gridTitle={"Users"}
-        data={serverData.users}
-        columnDefs={userColumnDefs}
-        width={"400px"}
+        gridTitle={"Unassigned tasks"}
+        columnDefs={unassignedTasksColumnDefs}
+        data={serverData.unassignedTasks}
       />
     </div>
   );

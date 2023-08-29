@@ -40,6 +40,7 @@ import brandDark from "assets/images/logo-ct-dark.png";
 import { Context } from "./index";
 import { getAllTasks } from "./myCode/http/taskAPI";
 import { getAllUsers } from "./myCode/http/userAPI";
+import { useParams } from "react-router-dom";
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -136,9 +137,21 @@ export default function App() {
 
   const { serverData } = useContext(Context);
 
+  //Подгрузка данных из бд
+
+  // const { unassigned } = useParams();
+  // const { id } = useParams();
+
   useEffect(() => {
-    getAllTasks().then((data) => serverData.setTasks(data));
-    getAllUsers().then((data) => serverData.setUsers(data));
+    getAllTasks(null, true).then((data) => {
+      serverData.setTasks(data);
+    });
+    getAllTasks().then((data) => {
+      serverData.setUnassignedTasks(data);
+    });
+    getAllUsers().then((data) => {
+      serverData.setUsers(data);
+    });
   }, []);
 
   return (

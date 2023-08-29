@@ -6,7 +6,6 @@ import { observer } from "mobx-react-lite";
 const MyUserComp = observer((p) => {
   // console.log(p.data);
   const [user, setUser] = useState({});
-  console.log(p.data);
   useEffect(() => {
     if (p.data.userId) {
       getUser(p.data.userId).then((data) => {

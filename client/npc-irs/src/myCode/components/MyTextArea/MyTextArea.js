@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 
-import React, { useEffect, useRef } from "react";
-import classes from "./MyInput.module.css";
+import React from "react";
+import classes from "./MyTextArea.module.css";
 
-const MyInput = ({ text }) => {
+const MyTextArea = ({ text }) => {
   return (
     <div className={classes.container}>
-      <div className={classes.inputContainer}>
-        <input type="text" id={text + "_id"} />
+      <div className={classes.textAreaContainer}>
+        <textarea id={text + "_id"} />
         <label htmlFor={text + "_id"}>{text}</label>
         <fieldset>
           <legend>
@@ -19,4 +19,4 @@ const MyInput = ({ text }) => {
   );
 };
 
-export default MyInput;
+export default MyTextArea;
