@@ -14,7 +14,15 @@ import { observer } from "mobx-react-lite";
 import { deleteTask } from "../../../http/taskAPI";
 
 const Table = observer(
-  ({ gridEditAllowed = false, gridTitle = "Plain table", data, columnDefs, width = "100%" }) => {
+  ({
+    gridAddAllowed = false,
+    gridEditAllowed = false,
+    gridDeleteAllowed = false,
+    gridTitle = "Plain table",
+    data,
+    columnDefs,
+    width = "100%",
+  }) => {
     const [isModalActive, setIsModalActive] = useState(false);
     const insertOne = useCallback(() => {
       if (!isModalActive) setIsModalActive(true);
@@ -66,19 +74,23 @@ const Table = observer(
         <div className={classes.tablesPage}>
           <div className={classes.tableTitle}>
             <div>{gridTitle}</div>
-            {gridEditAllowed ? (
-              <div className={classes.titleBtnContainer}>
+            <div className={classes.titleBtnContainer}>
+              {gridAddAllowed ? (
                 <button className={classes.addBtn} onClick={insertOne}>
                   Add
                 </button>
+              ) : null}
+              {gridEditAllowed ? (
                 <button className={classes.editBtn} disabled={!isRowSelected}>
                   Edit
                 </button>
+              ) : null}
+              {gridDeleteAllowed ? (
                 <button className={classes.deleteBtn} onClick={onRemove} disabled={!isRowSelected}>
                   Delete
                 </button>
-              </div>
-            ) : null}
+              ) : null}
+            </div>
           </div>
           <div className={"ag-theme-alpine"} style={{ height: "500px", width: "100%" }}>
             <AgGridReact

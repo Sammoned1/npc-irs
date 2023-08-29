@@ -53,7 +53,9 @@ const MyTables = observer(() => {
       {/*<MyNavbar />*/}
       <div style={{ display: "flex", gap: 24 }}>
         <Table
+          gridAddAllowed={true}
           gridEditAllowed={true}
+          gridDeleteAllowed={true}
           gridTitle={"Recent tasks"}
           data={serverData.tasks}
           columnDefs={taskColumnDefs}
@@ -66,6 +68,8 @@ const MyTables = observer(() => {
         />
       </div>
       <Table
+        gridEditAllowed={true}
+        gridDeleteAllowed={true}
         gridTitle={"Unassigned tasks"}
         columnDefs={unassignedTasksColumnDefs}
         data={serverData.unassignedTasks}
