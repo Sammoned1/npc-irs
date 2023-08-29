@@ -28,21 +28,21 @@ const MyTables = observer(() => {
       cellRenderer: MyUserComp,
       headerComponentParams: { displayName: "employee" },
     },
-    { field: "status", cellRenderer: MyStatusComp },
     { field: "progress", cellRenderer: MyProgressBarComp },
+    { field: "status", cellRenderer: MyStatusComp },
   ]);
 
   const [userColumnDefs] = useState([
     { field: "username", cellRenderer: MyUserComp },
-    { field: "taskAmount", cellRenderer: MyTaskAmountComp },
     { field: "overallProgress", cellRenderer: MyProgressBarComp },
+    { field: "taskAmount", cellRenderer: MyTaskAmountComp },
   ]);
 
   const [unassignedTasksColumnDefs] = useState([
     { field: "task", cellRenderer: MyTaskComp },
     { field: "description", cellRenderer: MyDescriptionComp, wrapText: true, autoHeight: true },
-    { field: "status", cellRenderer: MyStatusComp },
     { field: "progress", cellRenderer: MyProgressBarComp },
+    { field: "status", cellRenderer: MyStatusComp },
   ]);
 
   return (

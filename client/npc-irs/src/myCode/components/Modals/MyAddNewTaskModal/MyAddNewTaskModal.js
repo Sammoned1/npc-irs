@@ -61,6 +61,8 @@ const MyAddNewTaskModal = observer(({ isActive, setIsActive }) => {
             onClick={() => {
               setIsActive(false);
               setSelectedUser({});
+              setSelectedTask("");
+              setSelectedDescription("");
             }}
           >
             Cansel

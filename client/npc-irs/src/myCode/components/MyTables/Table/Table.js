@@ -52,7 +52,7 @@ const Table = observer(
       } else setIsRowSelected(true);
     });
 
-    const onFirstDataRendered = useCallback((params) => {
+    const onGridReady = useCallback((params) => {
       gridRef.current.api.sizeColumnsToFit();
     });
 
@@ -104,7 +104,7 @@ const Table = observer(
               animateRows={true}
               rowSelection={"multiple"}
               rowHeight={60}
-              onFirstDataRendered={onFirstDataRendered}
+              onGridReady={onGridReady}
               headerHeight={40}
               onRowClicked={onRowClicked}
             ></AgGridReact>
