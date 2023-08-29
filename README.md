@@ -17,8 +17,19 @@
 
 ### Установка зависимостей:
 
+Клонирование по http:
+
+```shell
+$ git clone https://github.com/Sammoned1/npc-irs.git
+```
+
+Клонирование по ssh:
+
 ```shell
 $ git clone git@github.com:Sammoned1/npc-irs.git
+```
+
+```shell
 $ cd npc-irs/server
 $ npm i --save package.json
 $ cd ..
