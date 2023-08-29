@@ -1,4 +1,5 @@
 .container {
+    width: 100%;
     position: relative;
     font-size: 0.8rem;
 }
@@ -30,6 +31,7 @@
     padding: 0.75rem;
     z-index: 100;
     /*position: absolute;*/
+
 }
 
 .inputContainer fieldset {
@@ -51,23 +53,24 @@
     visibility: hidden;
 }
 
-.inputContainer input:focus ~ fieldset > legend {
+.inputContainer input:focus ~ fieldset > legend, .inputContainer input.active ~ fieldset > legend {
     display: block;
     /*visibility: hidden;*/
 }
 
-.inputContainer input:focus ~ fieldset {
+.inputContainer input:focus ~ fieldset, .inputContainer input.active ~ fieldset{
     top: -0.55rem;
     height: 3.3rem;
     border: 2px solid #4285F4;
     color: #4285F4;
 }
 
-.inputContainer input:focus + label{
+.inputContainer input:focus + label, .inputContainer input.active + label{
     font-size: 0.7rem;
     top: -8px;
     color: #4285F4;
 }
+
 
 
 

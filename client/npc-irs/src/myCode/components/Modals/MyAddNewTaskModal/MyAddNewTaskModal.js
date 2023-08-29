@@ -7,15 +7,25 @@ import { Context } from "../../../../index";
 import { observer } from "mobx-react-lite";
 import UserNode from "./UserNode/UserNode";
 import MyTextArea from "../../MyTextArea/MyTextArea";
+import { createTask } from "../../../http/taskAPI";
 
 const MyAddNewTaskModal = observer(({ isActive, setIsActive }) => {
   const [users, setUsers] = useState([]);
   const { serverData } = useContext(Context);
+
+  const [selectedTask, setSelectedTask] = useState("");
+  const [selectedDescription, setSelectedDescription] = useState("");
+  const [selectedUser, setSelectedUser] = useState({});
+
   useEffect(() => {
     if (serverData.users.length) setUsers(serverData.users);
   }, [serverData.users.length]);
 
-  const [selectedUser, setSelectedUser] = useState({});
+  const addTask = () => {
+    createTask(selectedTask, selectedDescription, selectedUser.id).then((data) => {
+      setIsActive(false);
+    });
+  };
 
   return (
     <div className={classes.modal} style={{ display: isActive ? "flex" : "none" }}>
@@ -23,8 +33,12 @@ const MyAddNewTaskModal = observer(({ isActive, setIsActive }) => {
         <div className={classes.modalTitle}>Add new task</div>
         <div className={classes.modalContent}>
           <div className={classes.modalInputs}>
-            <MyInput text={"Task name"} />
-            <MyTextArea text={"Description"} />
+            <MyInput text={"Task name"} value={selectedTask} setValue={setSelectedTask} />
+            <MyTextArea
+              text={"Description"}
+              value={selectedDescription}
+              setValue={setSelectedDescription}
+            />
           </div>
           <div>
             <div className={classes.userListTitle}>Choose user</div>
@@ -51,7 +65,7 @@ const MyAddNewTaskModal = observer(({ isActive, setIsActive }) => {
           >
             Cansel
           </button>
-          <button>Submit</button>
+          <button onClick={addTask}>Submit</button>
         </div>
       </div>
     </div>

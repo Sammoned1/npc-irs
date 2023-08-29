@@ -7,8 +7,8 @@ const MyUserComp = observer((p) => {
   // console.log(p.data);
   const [user, setUser] = useState({});
   useEffect(() => {
-    if (p.data.userId) {
-      getUser(p.data.userId).then((data) => {
+    if (p.data.user_id) {
+      getUser(p.data.user_id).then((data) => {
         setUser(data.user);
       });
     } else if (p.data.username) {

@@ -35,6 +35,7 @@ const MyTables = observer(() => {
   const [userColumnDefs] = useState([
     { field: "username", cellRenderer: MyUserComp },
     { field: "taskAmount", cellRenderer: MyTaskAmountComp },
+    { field: "overallProgress", cellRenderer: MyProgressBarComp },
   ]);
 
   const [unassignedTasksColumnDefs] = useState([
@@ -43,10 +44,6 @@ const MyTables = observer(() => {
     { field: "status", cellRenderer: MyStatusComp },
     { field: "progress", cellRenderer: MyProgressBarComp },
   ]);
-
-  useEffect(() => {
-    console.log(serverData._unassignedTasks);
-  }, [serverData._unassignedTasks]);
 
   return (
     <div className={classes.tablesContainer} style={{ height: "100%", width: "100%" }}>
@@ -64,7 +61,7 @@ const MyTables = observer(() => {
           gridTitle={"Users"}
           data={serverData.users}
           columnDefs={userColumnDefs}
-          width={"400px"}
+          width={"600px"}
         />
       </div>
       <Table

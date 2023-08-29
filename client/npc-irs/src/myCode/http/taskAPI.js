@@ -1,7 +1,7 @@
 import { $host } from "./index";
 
-export const createTask = async (task, description, status, progress, userId) => {
-  const { data } = await $host.post("api/task/", { task, description, status, progress, userId });
+export const createTask = async (task, description, userId) => {
+  const { data } = await $host.post("api/task/", { task, description, userId });
   return data;
 };
 

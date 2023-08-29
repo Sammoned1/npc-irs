@@ -2,19 +2,19 @@ import React, { useEffect } from "react";
 import classes from "./MyProgressBarComp.module.css";
 
 const MyProgressBarComp = (p) => {
-  const progress = p.value;
+  const progress = p.data.progress ? p.data.progress : p.data.overall_progress;
   return (
     <div className={classes.progressBarContainer}>
-      <div className={classes.progressText}>{progress}%</div>
+      <div className={classes.progressText}>{Math.floor(progress * 100)}%</div>
       <div className={classes.progressBar}>
         <div
           className={classes.progressBarFill}
           style={{
-            width: `${progress}%`,
+            width: `${Math.floor(progress * 100)}%`,
             background:
-              progress < 25
+              progress < 0.25
                 ? "linear-gradient(195deg, #EF5350, #E53935)"
-                : progress < 75
+                : progress < 0.75
                 ? "linear-gradient(195deg, #49a3f1, #1A73E8)"
                 : "linear-gradient(195deg, #66BB6A, #43A047)",
           }}

@@ -6,12 +6,13 @@ const sequelize = require("../db");
 class TaskController {
   async createTask(req, res, next) {
     try {
+      // const { task, description, userId } = req.body;
       const {
         task,
         description = "no description",
-        status = "Pending",
         progress = 0,
         userId,
+        status = userId ? "Working" : "Pending",
       } = req.body;
       if (!task)
         return next(ApiError.badRequest("Ошибка при добавлении задачи"));
@@ -20,7 +21,7 @@ class TaskController {
         description,
         status,
         progress,
-        userId,
+        user_id: userId,
       });
       return res.json({ newTask });
     } catch (e) {
@@ -43,18 +44,20 @@ class TaskController {
     }
   }
 
-    static async getTasks(limit, offset, assigned){
-      const tasks = await sequelize.query(`
-        SELECT *
-        FROM tasks
-        WHERE "userId" IS ${assigned? 'NOT': ''} NULL
---             Тернарные операторы для добавления лимита и оффсета в raw query
-            ${limit ? "LIMIT " + limit : ""}
-            ${offset ? "OFFSET " + offset : ""}
-        ORDER BY id DESC
-      `);
-      return tasks[0]
+  static async getTasks(limit, offset, assigned) {
+    // noinspection SqlType
+    const tasks = await sequelize.query(`
+            SELECT *
+            FROM tasks
+            WHERE user_id IS ${assigned ? "NOT" : ""} NULL
+--             Тернарные операторы для добавления лимита и оффсета в raw query ${
+      limit ? "LIMIT " + limit : ""
     }
+             ${offset ? "OFFSET " + offset : ""}
+            ORDER BY id DESC
+        `);
+    return tasks[0];
+  }
 
   async getAllTasks(req, res, next) {
     try {
@@ -62,14 +65,15 @@ class TaskController {
       if (userId) {
         //Получение тасков, присвоенных пользователю
         const tasks = await sequelize.query(`
-            SELECT *
-            FROM tasks
-            WHERE "userId" = ${userId}
-        `)
-        return res.json(tasks)
+                    SELECT *
+                    FROM tasks
+                    WHERE user_id = ${userId}
+                `);
+        return res.json(tasks);
       } else {
-        const tasks = await TaskController.getTasks(limit, offset, assigned)
-        return res.json(tasks)}
+        const tasks = await TaskController.getTasks(limit, offset, assigned);
+        return res.json(tasks);
+      }
     } catch (e) {
       next(ApiError.badRequest(e.message));
     }

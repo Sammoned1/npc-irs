@@ -18,7 +18,7 @@ class UserController {
     const user = await User.create({
       username,
       password: hashPassword,
-      taskAmount: 0,
+      task_amount: 0,
     });
     return res.json({ user });
   }
