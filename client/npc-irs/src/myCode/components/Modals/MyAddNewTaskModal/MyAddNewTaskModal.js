@@ -7,9 +7,10 @@ import { Context } from "../../../../index";
 import { observer } from "mobx-react-lite";
 import UserNode from "./UserNode/UserNode";
 import MyTextArea from "../../MyTextArea/MyTextArea";
-import { createTask } from "../../../http/taskAPI";
+import { createTask, updateTask } from "../../../http/taskAPI";
+import { getUser } from "../../../http/userAPI";
 
-const MyAddNewTaskModal = observer(({ isActive, setIsActive }) => {
+const MyAddNewTaskModal = observer(({ isActive, setIsActive, selectedRow, isEdit }) => {
   const [users, setUsers] = useState([]);
   const { serverData } = useContext(Context);
 
@@ -21,11 +22,29 @@ const MyAddNewTaskModal = observer(({ isActive, setIsActive }) => {
     if (serverData.users.length) setUsers(serverData.users);
   }, [serverData.users.length]);
 
-  const addTask = () => {
-    createTask(selectedTask, selectedDescription, selectedUser.id).then((data) => {
-      setIsActive(false);
-    });
+  const submitTask = () => {
+    if (isEdit) {
+      // console.log(selectedRow.id);
+      console.log(selectedUser.id);
+      updateTask(selectedRow.id, selectedTask, selectedDescription, selectedUser.id).then(
+        (data) => {
+          setIsActive(false);
+        }
+      );
+    } else
+      createTask(selectedTask, selectedDescription, selectedUser.id).then((data) => {
+        setIsActive(false);
+      });
   };
+
+  useEffect(() => {
+    if (selectedRow.task) setSelectedTask(selectedRow.task);
+    setSelectedDescription(selectedRow.description);
+    if (selectedRow.user_id)
+      getUser(selectedRow.user_id).then((data) => {
+        setSelectedUser(data.user);
+      });
+  }, [selectedRow.user_id]);
 
   return (
     <div className={classes.modal} style={{ display: isActive ? "flex" : "none" }}>
@@ -42,6 +61,9 @@ const MyAddNewTaskModal = observer(({ isActive, setIsActive }) => {
           </div>
           <div>
             <div className={classes.userListTitle}>Choose user</div>
+            {selectedUser.id ? (
+              <UserNode user={selectedUser} selectedUser={selectedUser} allowClick={false} />
+            ) : null}
             <div className={classes.modalUsersList}>
               {users.length
                 ? users.map((user) => (
@@ -67,7 +89,7 @@ const MyAddNewTaskModal = observer(({ isActive, setIsActive }) => {
           >
             Cansel
           </button>
-          <button onClick={addTask}>Submit</button>
+          <button onClick={submitTask}>Submit</button>
         </div>
       </div>
     </div>

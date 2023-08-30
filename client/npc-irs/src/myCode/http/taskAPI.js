@@ -10,10 +10,12 @@ export const getTask = async (id) => {
   return data;
 };
 
-export const getAllTasks = async (userId, assigned) => {
+export const getAllTasks = async (limit, offset, user_id, assigned) => {
   const { data } = await $host.get("api/task/", {
     params: {
-      userId,
+      limit,
+      offset,
+      user_id,
       assigned,
     },
   });
@@ -25,6 +27,7 @@ export const deleteTask = async (selectedIds) => {
   return data;
 };
 
-// export const getUnassignedTasks = async ()=>{
-//   const {data} = await $host.get("api/task/")
-// }
+export const updateTask = async (id, task, description, user_id) => {
+  const { data } = await $host.put("api/task/", { id, task, description, user_id });
+  return data;
+};

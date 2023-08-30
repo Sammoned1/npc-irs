@@ -1,8 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./MyProgressBarComp.module.css";
+import { getUser } from "../../../http/userAPI";
 
 const MyProgressBarComp = (p) => {
-  const progress = p.data.progress ? p.data.progress : p.data.overall_progress;
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    if (p.data) {
+      if (p.data.progress) setProgress(p.data.progress);
+      else setProgress(p.data.overall_progress);
+    }
+  }, []);
+
   return (
     <div className={classes.progressBarContainer}>
       <div className={classes.progressText}>{Math.floor(progress * 100)}%</div>

@@ -31,10 +31,10 @@ git clone git@github.com:Sammoned1/npc-irs.git
 
 ```shell
 cd npc-irs/server
-npm i --save package.json
+npm i
 cd ..
 cd client/npc-irs
-npm i --save package.json
+npm i
 ```
 
 ### Запуск проекта:

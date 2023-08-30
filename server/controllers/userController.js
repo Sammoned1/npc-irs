@@ -1,6 +1,7 @@
 const { User } = require("../models/models");
 const ApiError = require("../error/ApiError");
 const bcrypt = require("bcrypt");
+const sequelize = require("../db");
 
 class UserController {
   async createUser(req, res, next) {
@@ -37,12 +38,14 @@ class UserController {
 
   async getAllUsers(req, res, next) {
     const { limit, offset } = req.query;
-    const users = await User.findAll({
-      limit,
-      offset,
-      order: [["username", "ASC"]],
-    });
-    return res.json(users);
+    const users = await sequelize.query(`
+            SELECT *
+            FROM USERS ${limit ? "LIMIT " + limit : ""} ${
+      offset ? "OFFSET " + offset : ""
+    };
+
+        `);
+    return res.json(users[0]);
   }
 }
 

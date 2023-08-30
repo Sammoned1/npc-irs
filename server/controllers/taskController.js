@@ -16,7 +16,7 @@ class TaskController {
       } = req.body;
       if (!task)
         return next(ApiError.badRequest("Ошибка при добавлении задачи"));
-      const newTask = Task.create({
+      const newTask = await Task.create({
         task,
         description,
         status,
@@ -44,30 +44,48 @@ class TaskController {
     }
   }
 
+  async updateTask(req, res, next) {
+    try {
+      const { id, task, description, user_id } = req.body;
+      if (!task)
+        return next(ApiError.badRequest("Ошибка при добавлении задачи"));
+      const updatedTask = await Task.findOne({
+        where: { id },
+      });
+      console.log(user_id)
+      updatedTask.task = task;
+      updatedTask.description = description;
+      updatedTask.user_id = user_id;
+      updatedTask.save();
+      return res.json(updatedTask);
+    } catch (e) {
+      next(ApiError.badRequest(e.message));
+    }
+  }
+
   static async getTasks(limit, offset, assigned) {
     // noinspection SqlType
     const tasks = await sequelize.query(`
             SELECT *
             FROM tasks
-            WHERE user_id IS ${assigned ? "NOT" : ""} NULL
---             Тернарные операторы для добавления лимита и оффсета в raw query ${
+            WHERE user_id IS ${!assigned ? "NOT NULL" : "NULL"} ${
       limit ? "LIMIT " + limit : ""
-    }
-             ${offset ? "OFFSET " + offset : ""}
-            ORDER BY id DESC
+    } ${offset ? "OFFSET " + offset : ""};
+--         ORDER BY id DESC;
         `);
     return tasks[0];
   }
 
   async getAllTasks(req, res, next) {
     try {
-      const { limit, offset, userId, assigned } = req.query;
-      if (userId) {
+      const { limit, offset, user_id, assigned  } = req.query;
+      if (user_id) {
+        // console.log(true)
         //Получение тасков, присвоенных пользователю
         const tasks = await sequelize.query(`
                     SELECT *
                     FROM tasks
-                    WHERE user_id = ${userId}
+                    WHERE user_id = ${user_id}
                 `);
         return res.json(tasks);
       } else {

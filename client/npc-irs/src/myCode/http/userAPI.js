@@ -10,7 +10,12 @@ export const getUser = async (id) => {
   return data;
 };
 
-export const getAllUsers = async () => {
-  const { data } = await $host.get("api/user/");
+export const getAllUsers = async (limit, offset) => {
+  const { data } = await $host.get("api/user/", {
+    params: {
+      limit,
+      offset,
+    },
+  });
   return data;
 };

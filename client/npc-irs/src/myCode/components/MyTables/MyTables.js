@@ -16,6 +16,7 @@ import { observer } from "mobx-react-lite";
 import MyUserComp from "../MyGridColumnComps/MyUserComp/MyUserComp";
 import Table from "./Table/Table";
 import MyTaskAmountComp from "../MyGridColumnComps/MyTaskAmountComp/MyTaskAmountComp";
+import { getAllUsers } from "../../http/userAPI";
 
 const MyTables = observer(() => {
   const { serverData } = useContext(Context);
@@ -45,6 +46,41 @@ const MyTables = observer(() => {
     { field: "status", cellRenderer: MyStatusComp },
   ]);
 
+  const tasksDataSource = {
+    rowCount: null,
+    getRows: (params) => {
+      setTimeout(() => {
+        let limit = params.endRow - params.startRow;
+        let offset = params.startRow;
+        getAllTasks(limit, offset).then((data) => {
+          let lastRow = -1;
+          if (data.length === 0) {
+            lastRow = params.startRow;
+          }
+          // serverData.setUsers(data)
+          params.successCallback(data, lastRow);
+        });
+      }, 500);
+    },
+  };
+
+  const usersDataSource = {
+    rowCount: null,
+    getRows: (params) => {
+      setTimeout(() => {
+        let limit = params.endRow - params.startRow;
+        let offset = params.startRow;
+        getAllUsers(limit, offset).then((data) => {
+          let lastRow = -1;
+          if (data.length === 0) {
+            lastRow = params.startRow;
+          }
+          params.successCallback(data, lastRow);
+        });
+      }, 500);
+    },
+  };
+
   return (
     <div className={classes.tablesContainer} style={{ height: "100%", width: "100%" }}>
       {/*<MyNavbar />*/}
@@ -54,14 +90,17 @@ const MyTables = observer(() => {
           gridEditAllowed={true}
           gridDeleteAllowed={true}
           gridTitle={"Recent tasks"}
-          data={serverData.tasks}
           columnDefs={taskColumnDefs}
+          dataSource={tasksDataSource}
+          rowModelType={"infinite"}
         />
         <Table
           gridTitle={"Users"}
           data={serverData.users}
           columnDefs={userColumnDefs}
           width={"600px"}
+          dataSource={usersDataSource}
+          rowModelType={"infinite"}
         />
       </div>
       <Table
@@ -70,6 +109,7 @@ const MyTables = observer(() => {
         gridTitle={"Unassigned tasks"}
         columnDefs={unassignedTasksColumnDefs}
         data={serverData.unassignedTasks}
+        rowModelType={"clientSide"}
       />
     </div>
   );

@@ -143,10 +143,8 @@ export default function App() {
   // const { id } = useParams();
 
   useEffect(() => {
-    getAllTasks(null, true).then((data) => {
-      serverData.setTasks(data);
-    });
-    getAllTasks().then((data) => {
+    getAllTasks(null, null, null, true).then((data) => {
+      // console.log(data);
       serverData.setUnassignedTasks(data);
     });
     getAllUsers().then((data) => {

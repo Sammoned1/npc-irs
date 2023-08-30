@@ -4,7 +4,7 @@ import React from "react";
 import classes from "./UserNode.module.css";
 import { observer } from "mobx-react-lite";
 
-const UserNode = observer(({ selectedUser, setSelectedUser, user }) => {
+const UserNode = observer(({ selectedUser, setSelectedUser, user, allowClick = true }) => {
   return (
     <div
       className={
@@ -12,7 +12,7 @@ const UserNode = observer(({ selectedUser, setSelectedUser, user }) => {
       }
       key={user.id}
       onClick={() => {
-        setSelectedUser(user);
+        if (allowClick) setSelectedUser(user);
       }}
       style={
         selectedUser.id === user.id

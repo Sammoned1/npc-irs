@@ -17,7 +17,7 @@ const Task = sequelize.define(
   "task",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    task: { type: DataTypes.STRING(255), allowNull: false },
+    task: { type: DataTypes.STRING(255), allowNull: false, unique: true },
     description: { type: DataTypes.TEXT, allowNull: true },
     status: { type: DataTypes.STRING(63), allowNull: false },
     progress: { type: DataTypes.DECIMAL, allowNull: false },

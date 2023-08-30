@@ -16,10 +16,11 @@
     --ag-row-border-color: rgba(128, 128, 128, 0.1);
     --ag-row-border-width: 1px;
     --ag-borders-critical: 1px solid;
+    /*overflow-x: hidden;*/
 }
 
-*::-webkit-scrollbar {
-    display: none;
-    width: 0 !important;
-}
+/**::-webkit-scrollbar {*/
+/*    display: none;*/
+/*    width: 0 !important;*/
+/*}*/
 
